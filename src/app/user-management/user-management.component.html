@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="input-group">
+    <input type="text" [(ngModel)]="newUser.name" placeholder="Имя">
+    <input type="number" [(ngModel)]="newUser.salary" placeholder="Зарплата">
+    <input type="date" [(ngModel)]="newUser.birthday" placeholder="Дата рождения">
+    <button (click)="addUser()">Добавить пользователя</button>
+  </div>
+
+  <div *ngIf="users.length === 0" class="error-message">
+    <p>Пользователей пока нет.</p>
+  </div>
+
+  <ul *ngIf="users.length > 0">
+    <li *ngFor="let user of users; let i = index">
+      <div *ngIf="editingIndex === i" class="edit-mode">
+        <input type="number" [(ngModel)]="user.salary" placeholder="Зарплата">
+        <input type="date" [(ngModel)]="user.birthday" placeholder="Дата рождения">
+        <button (click)="saveEdits()">Сохранить</button>
+        <button (click)="cancelEditing()">Отмена</button>
+      </div>
+      <div *ngIf="editingIndex !== i">
+        Имя: {{ user.name }} -
+        Зарплата: {{ user.salary | currency:'USD':true:'1.2-2' }} -
+        Дата рождения: {{ user.birthday | date:'d MMMM y '}}
+        <button (click)="startEditing(i)">Редактировать</button>
+        <button (click)="deleteUser(i)">Удалить</button>
+      </div>
+    </li>
+  </ul>
+</div>
